@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Survey Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('./cover.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-attachment: fixed;
+      color: rgb(9, 9, 9);
+    }
+
+    header {
+      text-align: center;
+      padding: 50px;
+      background-color: rgba(142, 138, 138, 0.5); /* Add a semi-transparent background for better readability */
+    }
+
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 5rem;
+      margin: 0;
+      color: #dfff81; /* Use the desired color for the font */
+    }
+ 
+    header h3 {
+      font-family: Arial, sans-serif;
+      font-size: 3rem;
+      margin: 0;
+      color: #1a1a19; /* Use the desired color for the font */
+    }
+
+    .container {
+      max-width: 21cm;
+      margin: auto;
+      background-color: rgb(255, 255, 255); /* Form background color */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .adjust-buttons {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .adjust-button {
+      margin: 0 5px;
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .rating-options, .checkbox-options {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .rating-options input, .checkbox-options input {
+      display: none;
+    }
+
+    .rating-options label, .checkbox-options label {
+      margin-right: 10px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .rating-options input:checked + label, .checkbox-options input:checked + label {
+      background-color: #3498db;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .animation-element {
+      width: 50px;
+      height: 50px;
+      background-color: #3498db;
+      margin-top: 20px;
+      border-radius: 50%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .animation-element:hover {
+      transform: rotate(360deg);
+    }
+
+    .number-input {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
+
+    .timer {
+      text-align: right;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 id="hotelName">Hotel Panorama</h1>
+    <h3>Feedback Survey</h3>
+    <h4>by</h4>
+    <h4> Ruchira Madushan </h4>
+  </header>
+
+  <div class="container" id="formContainer">
+    <div class="timer" id="timer"></div>
+
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName">
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+    <div class="error-message" id="emailError"></div>
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber">
+    <div class="error-message" id="phoneNumberError"></div>
+    
+    <label for="checkInDate">Check-in Date:</label>
+    <input type="date" id="checkInDate" name="checkInDate">
+
+    <label for="checkOutDate">Check-out Date:</label>
+    <input type="date" id="checkOutDate" name="checkOutDate">
+
+    <div class="adjust-buttons">
+      <label for="numOfAdults">Adults:</label>
+      <input type="number" id="numOfAdults" name="numOfAdults" value="0" min="0" class="number-input">
+
+      <label for="numOfChildren">Children:</label>
+      <input type="number" id="numOfChildren" name="numOfChildren" value="0" min="0" class="number-input">
+    </div>
+
+    <label for="roomPreference">Room Preference:</label>
+    <select id="roomPreference" name="roomPreference">
+      <option value="single">Single</option>
+      <option value="double">Double</option>
+      <option value="suite">Suite</option>
+    </select>
+
+    <label for="specialRequests">Special Requests:</label>
+    <textarea id="specialRequests" name="specialRequests" rows="4"></textarea>
+
+    <label for="ratingYourStay">Rating Your Stay:</label>
+    <div class="rating-options">
+      <input type="radio" id="rating1" name="ratingYourStay" value="1">
+      <label for="rating1">Excellent</label>
+
+      <input type="radio" id="rating2" name="ratingYourStay" value="2">
+      <label for="rating2">Good</label>
+
+      <input type="radio" id="rating3" name="ratingYourStay" value="3">
+      <label for="rating3">Average</label>
+
+      <input type="radio" id="rating4" name="ratingYourStay" value="4">
+      <label for="rating4">Poor</label>
+    </div>
+
+    <label for="facilitiesUtilized">Hotel Facilities Utilized:</label>
+    <div class="checkbox-options">
+      <input type="checkbox" id="facilitiesGym" name="facilitiesUtilized" value="gym">
+      <label for="facilitiesGym">Gym</label>
+
+      <input type="checkbox" id="facilitiesPool" name="facilitiesUtilized" value="pool">
+      <label for="facilitiesPool">Pool</label>
+
+      <input type="checkbox" id="facilitiesSpa" name="facilitiesUtilized" value="spa">
+      <label for="facilitiesSpa">Spa</label>
+    </div>
+
+    <label for="diningExperience">Dining Experience:</label>
+    <select id="diningExperience" name="diningExperience">
+      <option value="excellent">Excellent</option>
+      <option value="good">Good</option>
+      <option value="average">Average</option>
+      <option value="poor">Poor</option>
+    </select>
+
+    <label for="staffFeedback">Feedback on Staff Service:</label>
+    <textarea id="staffFeedback" name="staffFeedback" rows="4"></textarea>
+
+    <label for="wifiExperience">Wi-Fi Experience:</label>
+    <div class="rating-options">
+      <input type="radio" id="wifiExcellent" name="wifiExperience" value="Excellent">
+      <label for="wifiExcellent">Excellent</label>
+
+      <input type="radio" id="wifiGood" name="wifiExperience" value="Good">
+      <label for="wifiGood">Good</label>
+
+      <input type="radio" id="wifiAverage" name="wifiExperience" value="Average">
+      <label for="wifiAverage">Average</label>
+    </div>
+
+    <label for="likelihoodToRecommend">Likelihood to Recommend:</label>
+    <select id="likelihoodToRecommend" name="likelihoodToRecommend">
+      <option value="definitely">Definitely</option>
+      <option value="likely">Likely</option>
+      <option value="neutral">Neutral</option>
+      <option value="unlikely">Unlikely</option>
+      <option value="notAtAll">Not at all</option>
+    </select>
+
+    <label for="purposeOfStay">Purpose of Stay:</label>
+    <select id="purposeOfStay" name="purposeOfStay">
+      <option value="business">Business</option>
+      <option value="leisure">Leisure</option>
+    </select>
+
+    <label for="favoriteAspect">Favorite Aspect of the Hotel:</label>
+    <textarea id="favoriteAspect" name="favoriteAspect" rows="4"></textarea>
+
+    <label for="suggestions">Suggestions for Improvement:</label>
+    <textarea id="suggestions" name="suggestions" rows="4"></textarea>
+
+   <!-- Add a div for the success message -->
+   <div id="successMessage" style="color: green; margin-top: 10px;"></div>
+
+   <button onclick="submitForm()" class="animate__animated animate__wobble">Submit</button>
+
+   <div class="animation-element"></div>
+
+   <br>
+   <br>
+   <label for="jsonOutput">JSON Output:</label>
+   <textarea id="jsonOutput" rows="10" readonly></textarea>
+
+  </div>
+
+  <script>
+ function submitForm() {
+      const formData = {
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phoneNumber: document.getElementById('phoneNumber').value,
+        checkInDate: document.getElementById('checkInDate').value,
+        checkOutDate: document.getElementById('checkOutDate').value,
+        numOfAdults: document.getElementById('numOfAdults').value,
+        numOfChildren: document.getElementById('numOfChildren').value,
+        roomPreference: document.getElementById('roomPreference').value,
+        specialRequests: document.getElementById('specialRequests').value,
+        ratingYourStay: document.querySelector('input[name="ratingYourStay"]:checked').value,
+        facilitiesUtilized: getCheckboxValues('facilitiesUtilized'),
+        diningExperience: document.getElementById('diningExperience').value,
+        staffFeedback: document.getElementById('staffFeedback').value,
+        wifiExperience: document.querySelector('input[name="wifiExperience"]:checked').value,
+        likelihoodToRecommend: document.getElementById('likelihoodToRecommend').value,
+        purposeOfStay: document.getElementById('purposeOfStay').value,
+        favoriteAspect: document.getElementById('favoriteAspect').value,
+        suggestions: document.getElementById('suggestions').value,
+      };
+
+      // Convert form data to JSON string
+  const jsonData = JSON.stringify(formData, null, 2);
+
+// Display JSON string in the text area
+const jsonTextArea = document.getElementById('jsonOutput');
+jsonTextArea.value = jsonData;
+
+// For demonstration purposes, always return true after successful submission
+return true;
+}
+
+    function getCheckboxValues(checkboxName) {
+      const checkboxes = document.querySelectorAll(`input[name="${checkboxName}"]:checked`);
+      const values = Array.from(checkboxes).map(checkbox => checkbox.value);
+      return values;
+    }
+
+    const animationElement = document.querySelector('.animation-element');
+
+    function updateTimer() {
+      const timerElement = document.getElementById('timer');
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const formattedTime = `${hours}:${minutes}:${seconds}`;
+      timerElement.textContent = formattedTime;
+    }
+
+    setInterval(updateTimer, 1000);
+
+    function validateEmail() {
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = emailRegex.test(emailInput.value);
+
+      if (!isValidEmail) {
+        emailError.textContent = 'Please enter a valid email address.';
+      } else {
+        emailError.textContent = ''; // Reset error message
+      }
+
+      return isValidEmail;
+    }
+
+    function validatePhoneNumber() {
+      const phoneNumberInput = document.getElementById('phoneNumber');
+      const phoneNumberError = document.getElementById('phoneNumberError');
+
+      const phoneRegex = /^[0-9]+$/;
+      const isValidPhoneNumber = phoneRegex.test(phoneNumberInput.value);
+
+      if (!isValidPhoneNumber) {
+        phoneNumberError.textContent = 'Please enter a valid phone number (numeric only).';
+      } else {
+        phoneNumberError.textContent = ''; // Reset error message
+      }
+
+      return isValidPhoneNumber;
+    }
+
+    function validateAndSubmitForm() {
+  const isEmailValid = validateEmail();
+  const isPhoneNumberValid = validatePhoneNumber();
+  const successMessage = document.getElementById('successMessage');
+  const jsonOutput = document.getElementById('jsonOutput');
+
+  if (isEmailValid && isPhoneNumberValid) {
+    if (submitForm()) {
+      successMessage.textContent = 'Form submitted successfully!';
+      // Display JSON output
+      jsonOutput.value = JSON.stringify(formData, null, 2);
+      clearForm();
+    } else {
+      successMessage.textContent = 'Form submission failed. Please try again.';
+    }
+  } else {
+    successMessage.textContent = 'Please enter valid information for all fields.';
+  }
+}
+
+    function clearForm() {
+      // Clear text input fields
+      document.getElementById('fullName').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phoneNumber').value = '';
+      // ... (clear other text input fields as needed)
+
+      // Clear date input fields
+      document.getElementById('checkInDate').value = '';
+      document.getElementById('checkOutDate').value = '';
+
+      // Clear number input fields
+      document.getElementById('numOfAdults').value = '0';
+      document.getElementById('numOfChildren').value = '0';
+
+      // Clear select fields
+      document.getElementById('roomPreference').value = 'single';
+      document.getElementById('diningExperience').value = 'excellent';
+      document.getElementById('likelihoodToRecommend').value = 'definitely';
+      document.getElementById('purposeOfStay').value = 'business';
+
+      // Clear textarea fields
+      document.getElementById('specialRequests').value = '';
+      document.getElementById('staffFeedback').value = '';
+      document.getElementById('favoriteAspect').value = '';
+      document.getElementById('suggestions').value = '';
+
+      // Clear radio buttons
+      const ratingRadioButtons = document.querySelectorAll('input[name="ratingYourStay"]');
+      ratingRadioButtons.forEach(button => (button.checked = false));
+
+      const wifiRadioButtons = document.querySelectorAll('input[name="wifiExperience"]');
+      wifiRadioButtons.forEach(button => (button.checked = false));
+
+      // Clear checkboxes
+      const facilityCheckboxes = document.querySelectorAll('input[name="facilitiesUtilized"]');
+      facilityCheckboxes.forEach(checkbox => (checkbox.checked = false));
+
+      // Clear the JSON output textarea
+      document.getElementById('jsonOutput').value = '';
+
+      // Clear the success message
+      const successMessage = document.getElementById('successMessage');
+      successMessage.textContent = '';
+    }
+
+    const submitButton = document.querySelector('button');
+
+    // Add an event listener to the submit button
+    submitButton.addEventListener('click', function (event) {
+      // Prevent the default form submission behavior
+      event.preventDefault();
+      // Call the validateAndSubmitForm function
+      validateAndSubmitForm();
+    });
+
+    const hotelName = document.getElementById('hotelName');
+
+    // Add the "animate__headShake" class to the hotel name
+    hotelName.classList.add('animate__animated', 'animate__headShake');
+
+    // Remove the animation class after it finishes (you can adjust the time)
+    setTimeout(() => {
+      hotelName.classList.remove('animate__headShake');
+    }, 1000); // 1000 milliseconds = 1 second
+  </script>
+</body>
+</html>
